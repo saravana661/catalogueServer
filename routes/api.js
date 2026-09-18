@@ -345,3 +345,5 @@ router.post("/orders", async (req, res) => {
 router.get("/orders", async (req, res) => {
   res.json(readOrders());
 });
+
+module.exports = router;
