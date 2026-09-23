@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
 
@@ -9,12 +10,16 @@ app.use(
   cors({
     origin: ["http://localhost:3001", "http://localhost:3000"], 
       // your React app URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true
   })
 );
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "25mb" }));
+app.use(bodyParser.urlencoded({ limit: "25mb", extended: true }));
+
+// Serve folder-based product images (/images/products/<TagNo>.jpg)
+app.use("/images", express.static(path.join(__dirname, "public", "images")));
 
 // Routes
 const apiRoutes = require("./routes/api");
